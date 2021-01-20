@@ -1,37 +1,43 @@
 import { Observable, Observer } from "rxjs";
 
 const observer: Observer<any> = {
-  next: value => console.log('next [next]: ', value),
-  error: error => console.warn('error [obs]', error),
-  complete: () => console.info('Completed [obs]')
+  next: value => console.log('next: ', value),
+  error: error => console.warn('error: ', error),
+  complete: () => console.info('Completed')
 }
 
-// const obs$ = Observable.create() // Deprecated
+const interval$ = new Observable<number>( subscriber => {
 
-const obs$ = new Observable<string>( subs => {
-  subs.next('Hello')
-  subs.next('World')
-  subs.next('Hello')
-  subs.next('World')
+  // Create counter
+  let count: number = 0;
 
-  // Error forced
-  // const a = undefined
-  // a.name = 'Javi Moreno'
+  const interval = setInterval(() => {
+    subscriber.next( count )
+    count++
+    console.log(count);
+  }, 1000)
 
-  subs.complete()
-  subs.next('World')
+  setTimeout(() => {
+    subscriber.complete()
+  }, 2500);
+
+  return () => {
+    clearInterval(interval)
+    console.log('Interval finished');
+  }
+
 })
 
-// obs$.subscribe( console.log )
+const subscription1 = interval$.subscribe( observer )
+const subscription2 = interval$.subscribe( observer )
+const subscription3 = interval$.subscribe( observer )
 
-// obs$.subscribe( 
-//   value => console.log('next: ',value),
-//   error => console.warn('error', error),
-//   () => console.info('Completed')
-// )
-
-obs$.subscribe( observer )
-
+setTimeout(() => {
+  subscription1.unsubscribe()
+  subscription2.unsubscribe()
+  subscription3.unsubscribe()
+  console.log('Time out completed');
+}, 6000);
 
 
 

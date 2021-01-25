@@ -45,4 +45,4 @@ const keyup$ = fromEvent<KeyboardEvent>(document, 'keyup').pipe(
   filter<string>(key => key === 'Enter'),
 );
 
-keyup$.subscribe(observer);
+keyup$.subscribe(console.log);

@@ -14,7 +14,6 @@ document.querySelector('body').append(button);
 const counter$: Observable<number> = interval(1000);
 const clickBtn$: Observable<Event> = fromEvent<Event>(button, 'click');
 
-// Complete the first obersavble when the second emit the first time
 counter$.pipe(takeUntil(clickBtn$)).subscribe({
   next: value => console.log('next: ', value),
   error: error => console.warn('error: ', error),

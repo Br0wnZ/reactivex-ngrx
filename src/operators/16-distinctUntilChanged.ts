@@ -1,5 +1,5 @@
 import { from, Observable, of } from 'rxjs';
-import { distinctUntilChanged, distinctUntilKeyChanged } from 'rxjs/operators';
+import { distinctUntilChanged } from 'rxjs/operators';
 
 const numbers$: Observable<number | string> = of<number | string>(1, '1', 1, 3, 3, 2, 2, 4, 4, 5, 3, 1);
 
